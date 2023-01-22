@@ -4,9 +4,11 @@ import Notiflix from 'notiflix';
 
 Notiflix.Notify.init({
   position: 'center-top',
-  opacity: 0.8,
-  timeout: 2500,
+  opacity: 0.9,
+  timeout: 4000,
   clickToClose: true,
+  fontSize: '18px',
+  messageMaxLength: 300,
 });
 
 const display = document.querySelector('.timer');
@@ -18,6 +20,10 @@ const seconds = document.querySelector('[data-seconds]');
 const inputTime = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('[data-start]');
 
+display.insertAdjacentHTML(
+  'afterbegin',
+  '<span>До часу настання залишилось: </span>'
+);
 display.style.display = 'flex';
 display.style.gap = '20px';
 
@@ -64,7 +70,10 @@ function startTimer() {
     return;
   }
 
-  Notiflix.Notify.info('Here we go!');
+  Notiflix.Notify.info(
+    `Here we go!
+    Next stop is ${selectedDate.toLocaleString()}`
+  );
 
   intervalId = setInterval(() => {
     const remainingTime = selectedDate - Date.now();
