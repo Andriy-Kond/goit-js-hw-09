@@ -35,15 +35,17 @@ const options = {
   onClose(selectedDates) {
     console.log(selectedDates[0]);
     selectedDate = selectedDates[0];
+    console.log('onClose --> selectedDate', selectedDate);
+
     clearInterval(intervalId);
+
+    if (timerWorking) {
+      timerWorking = false;
+      Notiflix.Notify.failure('Timer was stopped');
+    }
 
     if (selectedDate > Date.now()) {
       startBtn.disabled = false;
-
-      if (timerWorking) {
-        timerWorking = false;
-        Notiflix.Notify.failure('Timer was stopped');
-      }
     } else {
       Notiflix.Notify.warning('Please choose a date in the future');
     }
@@ -57,6 +59,11 @@ startBtn.addEventListener('click', startTimer);
 function startTimer() {
   startBtn.disabled = true;
   timerWorking = true;
+  if (selectedDate < Date.now()) {
+    Notiflix.Notify.warning('Please choose a date in the future');
+    return;
+  }
+
   Notiflix.Notify.info('Here we go!');
 
   intervalId = setInterval(() => {
@@ -66,7 +73,11 @@ function startTimer() {
     if (remainingTime <= 0) {
       clearInterval(intervalId);
       timerWorking = false;
-      Notiflix.Notify.success('We have reached the destination date!');
+      startBtn.disabled = false;
+      console.log('startBtn.disabled', startBtn.disabled);
+      Notiflix.Notify.success(
+        'We have reached the destination date! Please select new date.'
+      );
       return;
     } else {
       days.textContent = remainingDate.days;
@@ -97,10 +108,6 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
-
-// console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-// console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-// console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
