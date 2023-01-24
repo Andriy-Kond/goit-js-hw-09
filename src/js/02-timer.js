@@ -83,7 +83,7 @@ function startTimer() {
       clearInterval(intervalId);
       timerWorking = false;
       startBtn.disabled = false;
-      console.log('startBtn.disabled', startBtn.disabled);
+      // console.log('startBtn.disabled', startBtn.disabled);
       Notiflix.Notify.success(
         'We have reached the destination date! Please select new date.'
       );
