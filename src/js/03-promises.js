@@ -5,6 +5,9 @@ Notiflix.Notify.init({
   timeout: 2500,
   clickToClose: true,
 });
+// Notiflix.Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
+// Notiflix.Notify.failure(`Rejected promise ${position} in ${delay}ms`);
+// Notiflix.Notify.warning('Please choose a date in the future');
 
 const form = document.querySelector('.form');
 const submitBtn = document.querySelector('.form button');
